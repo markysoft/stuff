@@ -1,1 +1,1 @@
- repository to hold various server side experiments
+Repository to hold various server-side experiments
