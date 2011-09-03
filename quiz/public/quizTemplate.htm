@@ -1,0 +1,25 @@
+<script id="quizTemplate" type="text/x-jquery-tmpl">
+
+<div class='span-24 last'><a href='${url}'><h2>${title} ${year} ${movieID}</h2></a></div>
+<div class='span-24 last'><img src='${poster}'/></div>
+<div class='span-24 last'>
+  <div class='box'> 
+    ${tagline}
+  </div>
+</div>
+<div class='span-24 last'>
+  <div class='box'>
+    {{each keywords}}
+    <span>${$value},</span>
+    {{/each}}
+  </div>
+</div>
+<div class='span-24 last'>
+  <div class='box'>
+    {{each genres}}
+    <span>${$value}</span>
+    {{/each}}
+  </div>
+</div>
+
+</script>

@@ -1,0 +1,18 @@
+.choice0, .choice1, .choice2{
+    padding: 0.8em;
+    background: #E5ECF9;
+    text-align: center;
+}
+
+.headerLine{
+    background-color: #FFF6BF;
+    display: inline-block;
+    text-align: center;
+}
+
+.questionLine{
+    background-color: #FFF6BF;
+    display: inline-block;
+    text-align: center;
+
+}
