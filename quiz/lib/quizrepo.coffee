@@ -23,6 +23,7 @@ class QuizRepo
         @loadCollections()
         @getTotalMovies (total) =>
             @totalMovies = total
+            console.log "repo ready"
             @ready = true
 
     getTotalMovies: (callback) ->

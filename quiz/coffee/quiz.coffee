@@ -16,7 +16,7 @@ movieCallback = (movie) ->
 loadTemplates = (callback) ->
   $.get('quizTemplate.htm', (template) ->
       $('body').append(template)
-      callback()     
+      callback()
   )
 
 allReady = ->

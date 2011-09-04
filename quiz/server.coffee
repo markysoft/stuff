@@ -23,6 +23,7 @@ app.get '/', (req, res) ->
 app.get '/quiz', (req, res) ->
     res.render 'quiz.html', {test: {name: 'Testy'}}
 
+
 app.get '/movie/:id' , (req, res) ->
     repo.getMovie(req.params.id, (movie)=> res.send movie if movie)
  
