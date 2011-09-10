@@ -5,21 +5,21 @@ class QuizRepo
         @initialiseClient()
         @movieCollection = null
 
-    initialiseClient: ->       
+    initialiseClient: ->
         mongo = require 'mongodb'
         server = new mongo.Server "staff.mongohq.com", 10028, {auto_reconnect:true}
         @client = new mongo.Db 'quiz', server
         console.log "initialised client #{@client}"
 
     open: ->
-        @client.open (err, database) => 
+        @client.open (err, database) =>
             @client.authenticate Credentials.user,Credentials.password, @setupRepository
                                         
     close: ->
         @client.close()
 
     setupRepository: (err) =>
-        @checkSucceeded err 
+        @checkSucceeded err
         @loadCollections()
         @getTotalMovies (total) =>
             @totalMovies = total
@@ -27,33 +27,41 @@ class QuizRepo
             @ready = true
 
     getTotalMovies: (callback) ->
-        @collection.count (err, result) => 
+        @collection.count (err, result) =>
             callback result
 
-    loadCollections: => 
+    loadCollections: =>
         @client.collection 'keyword_quiz.movie_infos', (dbErr, collection) =>
-            @checkSucceeded dbErr 
-            @collection = collection 
+            @checkSucceeded dbErr
+            @collection = collection
 
-    checkSucceeded: (err) => throw "Mongo Error: '#{err}'" if err != null    
+    checkSucceeded: (err) => throw "Mongo Error: '#{err}'" if err != null
 
-    getMovie:  (movieId, callback) ->  
-        @collection.find({movieID: movieId}).nextObject (err, result) => 
+    getMovie:  (movieId, callback) ->
+        @collection.find({movieID: movieId}).nextObject (err, result) =>
             @checkSucceeded err
-            callback result  
+            callback result
             
-    getMoviesByGenre: (genre, callback) =>
-        @collection.find({genres: genre}).toArray (err, results) => 
+    getMovies:  (movieIds, callback) ->
+        @collection.find({movieID: {"$in" : movieIds}}).toArray (err, results) =>
             @checkSucceeded err
-            callback results     
+            callback results
 
-    getMovieAt:  (position, callback) ->  
-        @collection.find().skip(position).nextObject (err, result) => 
+    getMoviesByGenre: (genre, callback) =>
+        @collection.find({genres: genre}).toArray (err, results) =>
             @checkSucceeded err
-            callback result  
-                                   
-    
+            callback results
+
+    getMovieAt:  (position, callback) ->
+        @collection.find().skip(position).nextObject (err, result) =>
+            @checkSucceeded err
+            callback result
                 
+    getAllMovieIds: (callback) ->
+        @collection.find({},{"movieID" : 1}).toArray (err, results) =>
+            @checkSucceeded err
+            callback results
+            
 root = exports ? window
 root.QuizRepo = QuizRepo
 

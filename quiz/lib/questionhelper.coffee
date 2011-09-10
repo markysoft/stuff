@@ -11,7 +11,7 @@ class QuestionHelper
     getThreeUniqueRandomNumbers: (records) ->
         numbers = []
         while numbers.length < 3
-            number = Math.floor(Math.random() * 250)
+            number = Math.floor(Math.random() * records)
             numbers.push number unless @contains(numbers, number)
         return numbers
 
