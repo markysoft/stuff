@@ -1,23 +1,33 @@
-qr = require '../lib/quizrepo'
 qh = require '../lib/questionhelper'
-cr = require '../credentials'
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
-
+require './fakerepo'
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000
+        
 describe "QuestionHelper", ->
     
-    repo = new qr.QuizRepo()
-    repo.open()
+    qhelp = new qh.QuestionHelper(new FakeRepo())
 
-    it "can return three random movies", ->
+    it "can return three unique random movies", ->
         movies = []
         getReturned = false
-        waitsFor -> repo.ready
-        runs ->
-                qhelp = new qh.QuestionHelper(repo)
-                qhelp.getThreeRandomMovies (data) =>
-                    movies = data
-                    getReturned = true
+        qhelp.getThreeRandomMovies (data) =>
+            movies = data
+            getReturned = true
 
         waitsFor -> getReturned is true
-        runs -> 
+        runs ->
             expect(movies.length).toEqual 3
+            expect(movies[0].movieID is movies[1].movieID ).toEqual false
+            expect(movies[1].movieID is movies[2].movieID ).toEqual false
+            expect(movies[2].movieID is movies[0].movieID ).toEqual false
+
+    it "can remove common keywords from a list of movies", ->
+        movies = []
+        movies.push {movieID: "001", keywords: ["one", "two", "middle", "three", "four"]}
+        movies.push {movieID: "002", keywords: ["two", "three", "four", "five"]}
+        newMovies = qhelp.removeCommonKeywords(movies)
+        expect(newMovies[0].keywords[0]).toEqual "one"
+        expect(newMovies[0].keywords[1]).toEqual "middle"
+        expect(newMovies[1].keywords[0]).toEqual "five"
+
+            
+

@@ -64,14 +64,3 @@ class QuizRepo
             
 root = exports ? window
 root.QuizRepo = QuizRepo
-
-#qr = require './code.coffee'
-#repo = new qr.QuizRepo()
-#repo.getMovieById 0111161
-
-
-#setTimeout (=> console.log repo.totalMovies), 1500
-#setTimeout (=> repo.getMovieAt(249, (movie)=> console.log "movie at 249 #{movie.title}" if movie)), 2000
-#setTimeout (=> repo.getMovie("0110912", (movie)=> console.log movie.title if movie)), 2200
-#setTimeout (=> repo.getMoviesByGenre "Horror", (movies) => console.log "#{movie.movieID}: #{movie.title} #{movie.genres}" for movie in movies), 2500
-#setTimeout (=> repo.close()), 4500

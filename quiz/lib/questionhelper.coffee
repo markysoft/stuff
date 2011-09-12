@@ -5,7 +5,7 @@ class QuestionHelper
         @movies = []
 
     getThreeRandomMovies: (callback) ->
-        indexes = @getThreeUniqueRandomNumbers(250)
+        indexes = @getThreeUniqueRandomNumbers(@repo.totalMovies)
         @repo.getAllMovieIds (ids) => @getSelectedMovies indexes, ids, callback
 
     getThreeUniqueRandomNumbers: (records) ->
@@ -22,10 +22,14 @@ class QuestionHelper
           false
 
     getSelectedMovies: (indexes, ids, callback) ->
+        console.log indexes
         selectedMovies = []
         for index in indexes
             selectedMovies.push ids[index].movieID
         @repo.getMovies selectedMovies, callback
+
+    removeCommonKeywords: (movies) ->
+        movies
 
 root = exports ? window
 root.QuestionHelper = QuestionHelper
