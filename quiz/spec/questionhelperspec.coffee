@@ -24,10 +24,13 @@ describe "QuestionHelper", ->
         movies = []
         movies.push {movieID: "001", keywords: ["one", "two", "middle", "three", "four"]}
         movies.push {movieID: "002", keywords: ["two", "three", "four", "five"]}
+        movies.push {movieID: "003", keywords: ["two", "free", "four", "mind"]}
         newMovies = qhelp.removeCommonKeywords(movies)
         expect(newMovies[0].keywords[0]).toEqual "one"
         expect(newMovies[0].keywords[1]).toEqual "middle"
         expect(newMovies[1].keywords[0]).toEqual "five"
+        expect(newMovies[2].keywords[0]).toEqual "free"
+        expect(newMovies[2].keywords[1]).toEqual "mind"
 
             
 
