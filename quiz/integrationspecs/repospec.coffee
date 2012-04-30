@@ -32,6 +32,19 @@ describe "Quiz Repository", ->
         waitsFor -> getReturned is true
         runs -> 
             expect(movieIds.length).toEqual 250
+     
+    it "can return a list of all movie posters", ->
+        getReturned = false      
+        moviePosters = []
+        waitsFor -> repo.ready
+        runs ->
+            repo.getAllMoviePosters (data) =>
+                moviePosters = data
+                getReturned = true
+        waitsFor -> getReturned is true
+        runs -> 
+            expect(moviePosters.length).toEqual 250
+
 
     it "can retrieve a movie by id", ->
        getReturned = false
@@ -88,5 +101,7 @@ describe "Quiz Repository", ->
                    movies = data
 
        waitsFor -> getReturned is true
-       runs -> expect(movies.length).toEqual  6
+       runs -> 
+            expect(movies.length).toEqual  6
+            repo.close()
 

@@ -22,22 +22,37 @@ class QuestionHelper
         @repo.getMovies selectedMovies, callback
 
     removeCommonKeywords: (movies) ->
-        filteredKeywords = []
-        for outerMovie in movies
+        for movieToCheck in movies
+            @addDuplicatesAsArray movieToCheck, movies     
+        @removeDuplicates movies
+     
 
-            filtered = []
-            for movie in movies
-                unless movie is outerMovie
-                   uniqueKeywords = outerMovie.keywords.complement movie.keywords
-                   filtered.merge uniqueKeywords
-            filteredKeywords.push filtered
+    addDuplicatesAsArray: (movieToCheck, allMovies) ->
+        #add array to object to hold duplicates
+        movieToCheck.duplicates = []
+        
+        for keyword in movieToCheck.keywords
+            for otherMovie in allMovies        
+                unless otherMovie is movieToCheck
+                    if otherMovie.keywords.contains keyword
+                        movieToCheck.duplicates.push keyword        
 
-        @replaceKeywords(movies, filteredKeywords)
+    removeDuplicates: (movies) ->
+        for movie in movies
+            movie.keywords = movie.keywords.complement movie.duplicates
+            delete movie.duplicates
+        return movies        
 
-    replaceKeywords: (movies, newKeywords) ->
-        for index, keywords of newKeywords
-            movies[index].keywords = keywords
-        return movies
+    generateAnswer: (movies) ->
+        movieIndex = Math.floor( Math.random() * movies.length )
+        movie = movies[movieIndex]
+        keywordIndex = Math.floor( Math.random() * movie.keywords.length )
+        answer = {}
+        answer.keyword = movie.keywords[keywordIndex]
+        answer.title = movie.title
+        choices = ["A", "B", "C"]
+        answer.choice = choices[movieIndex]
+        return answer
 
 
 # add convenience functions to Array class

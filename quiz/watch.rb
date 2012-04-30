@@ -1,4 +1,4 @@
-watch('./.*.js') do |match|
+watch('./.*.coffee') do |match|
   puts "Updating #{match}..."
   #system("coffee -c #{match}")
   system("jasmine-node --coffee ./spec")

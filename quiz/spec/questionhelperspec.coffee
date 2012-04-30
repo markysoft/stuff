@@ -28,9 +28,19 @@ describe "QuestionHelper", ->
         newMovies = qhelp.removeCommonKeywords(movies)
         expect(newMovies[0].keywords[0]).toEqual "one"
         expect(newMovies[0].keywords[1]).toEqual "middle"
+        expect(newMovies[0].keywords.length).toEqual 2
         expect(newMovies[1].keywords[0]).toEqual "five"
         expect(newMovies[2].keywords[0]).toEqual "free"
         expect(newMovies[2].keywords[1]).toEqual "mind"
 
-            
+    it "can select a random keyword from a list of movies", ->
+        movies = []
+        movies.push {movieID: "001", title: "moviea", keywords: ["one", "two", "three", "four"]}
+        movies.push {movieID: "002", title: "movieb", keywords: ["one2", "two2", "three2", "four2"]}
+        movies.push {movieID: "003", title: "moviec", keywords: ["one3", "two3", "three3", "four3"]}
 
+        answer = qhelp.generateAnswer movies
+        expect(answer.keyword).toNotBe(null)
+        expect(answer.title).toNotBe(null)
+        expect(answer.choice).toNotBe(null)
+        console.log answer

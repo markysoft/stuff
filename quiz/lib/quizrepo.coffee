@@ -61,6 +61,12 @@ class QuizRepo
         @collection.find({},{"movieID" : 1}).toArray (err, results) =>
             @checkSucceeded err
             callback results
+
+                
+    getAllMoviePosters: (callback) ->
+        @collection.find({},{"poster" : 1}).toArray (err, results) =>
+            @checkSucceeded err
+            callback results            
             
 root = exports ? window
 root.QuizRepo = QuizRepo
